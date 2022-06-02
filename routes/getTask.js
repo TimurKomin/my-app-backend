@@ -1,10 +1,11 @@
+const { reverse } = require('dns');
 const express = require('express');
 const fs = require('fs/promises')
 const router = express.Router();
 const url = require('node:url')
 const  {  v4 : uuidv4  }  =  require ( 'uuid' );
 // const { join } = require('path');
-const task = fs.readFile(`${__dirname}/arr.json`, 'utf8');
+// const task = fs.readFile(`${__dirname}/arr.json`, 'utf8');
 const { tasks } = require(`${__dirname}/arr.json`);
 router.use(express.json());
 
@@ -12,9 +13,12 @@ router.get('/', (req, res) => {
     let { pp, filterBy, page, order} = req.query
     const arrTasks = tasks
     let arrFilterTasks = arrTasks
-
+    
+        if(order === "desc") {
+            arrFilterTasks.reverse()
+        }
         if(order === 'asc') {
-            arrTasks.reverse()
+            arrFilterTasks.sort((a,b) => Number(Date.parse(a.date))  - Number(Date.parse(b.date)))
         }
         if(filterBy === 'done'){
             arrFilterTasks = arrTasks.filter((item) => item.done === true)
