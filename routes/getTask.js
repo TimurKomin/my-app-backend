@@ -3,40 +3,41 @@ const express = require('express');
 const fs = require('fs/promises')
 const router = express.Router();
 const url = require('node:url')
-const  {  v4 : uuidv4  }  =  require ( 'uuid' );
-// const { join } = require('path');
-// const task = fs.readFile(`${__dirname}/arr.json`, 'utf8');
-const { tasks } = require(`${__dirname}/arr.json`);
 router.use(express.json());
 
-router.get('/', (req, res) => {
-    let { pp, filterBy, page, order} = req.query
-    const arrTasks = tasks
-    let arrFilterTasks = arrTasks
+router.get('/', async (req, res)  => {
+
+    try{
+        let { pp, filterBy, page, order} = req.query
+
+
+
+        const tasksList = await fs.readFile(`${__dirname}/arr.json`);
+        const taskParse = JSON.parse(tasksList) 
+        let arrFilterTasks = taskParse.tasks
     
         if(order === "desc") {
             arrFilterTasks.reverse()
         }
         if(order === 'asc') {
-            arrFilterTasks.sort((a,b) => Number(Date.parse(a.date))  - Number(Date.parse(b.date)))
+            arrFilterTasks.sort((a,b) => Number(Date(a.date))  - Number(Date(b.date)))
         }
         if(filterBy === 'done'){
-            arrFilterTasks = arrTasks.filter((item) => item.done === true)
+            arrFilterTasks = arrFilterTasks.filter((item) => item.done === true)
 
         }
         if(filterBy === 'undone'){
-            arrFilterTasks = arrTasks.filter((item) => item.done === false)
+            arrFilterTasks = arrFilterTasks.filter((item) => item.done === false)
         }
 
         const count = arrFilterTasks.length
         const arr = arrFilterTasks.slice((page-1)*pp, page*pp)
-        res.status(200).json({arr, count})
+        await res.status(200).json({arr, count})
+    }
+    catch{
+        res.status(400).json('false')
+    }
     
-    // if()
-    // res.status(200).json(`${JSON.stringify({tasks})}`)
-    // // console.log(res.body)
-    // console.log(req.query)
-
 })
 
 module.exports = router;
