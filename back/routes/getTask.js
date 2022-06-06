@@ -1,18 +1,13 @@
-const { reverse } = require('dns');
 const express = require('express');
 const fs = require('fs/promises')
 const router = express.Router();
-const url = require('node:url')
 router.use(express.json());
 
 router.get('/', async (req, res)  => {
 
     try{
-        let { pp, filterBy, page, order} = req.query
-
-
-
-        const tasksList = await fs.readFile(`${__dirname}/arr.json`);
+        let { allPerPage, filterBy, page, order} = req.query
+        const tasksList = await fs.readFile(`../server/arr.json`);
         const taskParse = JSON.parse(tasksList) 
         let arrFilterTasks = taskParse.tasks
     
@@ -31,8 +26,8 @@ router.get('/', async (req, res)  => {
         }
 
         const count = arrFilterTasks.length
-        const arr = arrFilterTasks.slice((page-1)*pp, page*pp)
-        await res.status(200).json({arr, count})
+        const tasksCurrentPage = arrFilterTasks.slice((page-1)*allPerPage, page*allPerPage)
+        await res.status(200).json({tasksCurrentPage, count})
     }
     catch{
         res.status(400).json('false')
