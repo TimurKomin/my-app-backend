@@ -9,7 +9,7 @@ router.patch("/", async (req, res, next) => {
         const arrayTasks = JSON.parse(tasksList);
         if (arrayTasks.tasks.some((item) => item.name === req.body.name)) {
         // throw new ERROR(405, "Task alredy exist");
-        res.status(404).json('Task alredy exist')
+        throw res.status(404).json('Task alredy exist')
         }
 
         arrayTasks.tasks.map((item) => {
