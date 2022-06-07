@@ -19,4 +19,6 @@ server.use('/deleteTask', deleteTask)
 server.use('/deleteTasks', deleteTasks)
 server.use('/checkAll', checkAll)
 
-server.listen(PORT)
+server.listen(PORT, () => {
+    console.log(`Server start ${new Date} on port ${PORT}`);
+})

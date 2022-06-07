@@ -5,7 +5,7 @@ const router = express.Router();
 router.patch("/", async (req, res) => {
     try {
         const { uuid } = req.query;
-        const tasksList = await fs.readFile(`../server/arr.json`);
+        const tasksList = await fs.readFile(`./server/arr.json`);
         const tasks = JSON.parse(tasksList);
         const arrReq = uuid.split(",");
         const arrayChecked = tasks.tasks.map((item) => {
@@ -20,7 +20,7 @@ router.patch("/", async (req, res) => {
         const arrayToWrite = {
         tasks: arrayChecked,
         };
-        await fs.writeFile(`../server/arr.json`, JSON.stringify(arrayToWrite, null, 2));
+        await fs.writeFile(`./server/arr.json`, JSON.stringify(arrayToWrite, null, 2));
         res.json("ok");
     } catch (err) {
         console.err(err);

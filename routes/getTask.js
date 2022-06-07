@@ -7,7 +7,7 @@ router.get('/', async (req, res)  => {
 
     try{
         let { allPerPage, filterBy, page, order} = req.query
-        const tasksList = await fs.readFile(`../server/arr.json`);
+        const tasksList = await fs.readFile(`./server/arr.json`);
         const taskParse = JSON.parse(tasksList) 
         let arrFilterTasks = taskParse.tasks
     
