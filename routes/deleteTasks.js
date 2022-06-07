@@ -6,13 +6,13 @@ router.delete(`/`, async (req, res) => {
     const arrayTasks = JSON.parse(tasksList);
     const { uuid } = req.query;
     const arrReq = uuid.split(",");
-    arrayGetDeleted = arrayTasks.filter()
-    const arrayChecked = tasks.tasks.map((item) => {
+    // arrayGetDeleted = arrayTasks.filter()
+    const arrayChecked = arrayTasks.tasks.map((item) => {
         if (arrReq.includes(item.uuid)) {
-            return item.uuid !== req.body.uuid
+            return item.uuid !== uuid
         }
-        return item;
+        // return item;
         });
-    await fs.writeFile(`./server/arr.json`, `${JSON.stringify(arrayTasks, null, 2)}`);
+    await fs.writeFile(`./server/arr.json`, `${JSON.stringify(arrayChecked, null, 2)}`);
 });
 module.exports = router;
