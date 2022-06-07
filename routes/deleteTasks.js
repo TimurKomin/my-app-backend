@@ -8,7 +8,9 @@ router.delete(`/`, async (req, res) => {
     res.status(200).json(req.query.page);
     console.log(req.query.ordre)
     const arrReq = uuid.split(",");
-    const arrayForWrite = arrayTasks.filter(item => !arrReq.includes(item.id))
+    const arrayForWrite = {tasks: []}
+    arrayForWrite.tasks = arrayTasks.tasks.filter(item => !arrReq.includes(item.uuid))
+    console.log(arrayForWrite)
     await fs.writeFile(`./server/arr.json`, `${JSON.stringify(arrayForWrite, null, 2)}`);
 });
 module.exports = router;

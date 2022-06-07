@@ -8,7 +8,7 @@ router.patch("/", async (req, res, next) => {
         const tasksList = await fs.readFile(`./server/arr.json`);
     const arrayTasks = JSON.parse(tasksList);
     if (arrayTasks.tasks.some((item) => item.name === req.body.name)) {
-        return res.status(404).json("dont");
+        throw new ERROR(404, "Task alredy exist");
     }
 
     arrayTasks.tasks.map((item) => {
