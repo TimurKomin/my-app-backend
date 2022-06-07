@@ -8,7 +8,6 @@ router.delete(`/`, async (req, res) => {
     res.status(200).json(req.query.page);
     console.log(req.query.ordre)
     const arrReq = uuid.split(",");
-    arrayTasks.tasks.splice((req.query.page - 1) * 5, 5);
     const arrayForWrite = arrayTasks.filter(item => !arrReq.includes(item.id))
     await fs.writeFile(`./server/arr.json`, `${JSON.stringify(arrayForWrite, null, 2)}`);
 });
