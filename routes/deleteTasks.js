@@ -4,15 +4,8 @@ const router = express.Router();
 router.delete(`/`, async (req, res) => {
     const tasksList = await fs.readFile(`./server/arr.json`);
     const arrayTasks = JSON.parse(tasksList);
-    const { uuid } = req.query;
-    const arrReq = uuid.split(",");
-    // arrayGetDeleted = arrayTasks.filter()
-    const arrayChecked = arrayTasks.tasks.map((item) => {
-        if (arrReq.includes(item.uuid)) {
-            return item.uuid !== uuid
-        }
-        // return item;
-        });
-    await fs.writeFile(`./server/arr.json`, `${JSON.stringify(arrayChecked, null, 2)}`);
+    res.status(200).json(req.query.page);
+    arrayTasks.tasks.splice((req.query.page - 1) * 5, 5);
+    await fs.writeFile(`./server/arr.json`, `${JSON.stringify(arrayTasks, null, 2)}`);
 });
 module.exports = router;
