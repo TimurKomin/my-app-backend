@@ -18,6 +18,12 @@ server.use('/patchTask', patchTask)
 server.use('/deleteTask', deleteTask)
 server.use('/deleteTasks', deleteTasks)
 server.use('/checkAll', checkAll)
+server.use(function(err, req, res, next){
+    res.status(err.code).send({resp: {
+        message: err.message,
+        status: err.code
+    }})
+})
 server.listen(process.env.PORT || PORT, () => {
     console.log(`Server start ${new Date} on port ${PORT}`);
 })

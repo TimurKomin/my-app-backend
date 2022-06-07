@@ -3,8 +3,9 @@ const fs = require("fs/promises");
 const router = express.Router();
 router.use(express.json());
 
-router.patch("/", async (req, res) => {
-    const tasksList = await fs.readFile(`./server/arr.json`);
+router.patch("/", async (req, res, next) => {
+    try{
+        const tasksList = await fs.readFile(`./server/arr.json`);
     const arrayTasks = JSON.parse(tasksList);
     if (arrayTasks.tasks.some((item) => item.name === req.body.name)) {
         return res.status(404).json("dont");
@@ -20,6 +21,10 @@ router.patch("/", async (req, res) => {
     });
     await fs.writeFile(`./server/arr.json`, `${JSON.stringify(arrayTasks, null, 2)}`);
     res.status(200).json(`ok`);
+    }catch(err){
+        next(err)
+    }
+    
 });
 
 module.exports = router;
