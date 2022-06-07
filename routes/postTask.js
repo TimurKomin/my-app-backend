@@ -1,6 +1,5 @@
 const express = require("express");
 const fs = require("fs/promises");
-const { nextTick } = require("process");
 const router = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const ERROR = require("../helpers/errorHandler");
@@ -22,6 +21,7 @@ router.post("/", async (req, res, next) => {
         );
         res.status(200).json(`Task added`);
     } catch(err) {
+        // console.log(err)
         next(err)
     }
 });
