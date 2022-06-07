@@ -12,7 +12,7 @@ router.get('/', async (req, res, next)  => {
         let arrFilterTasks = taskParse.tasks
     
         if(order === "desc") {
-            arrFilterTasks
+            arrFilterTasks.sort((a,b) => Number(Date(a.date))  - Number(Date(b.date)))
         }
         if(order === 'asc') {
             arrFilterTasks.sort((a,b) => Number(Date(a.date))  - Number(Date(b.date)))
