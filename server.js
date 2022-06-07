@@ -18,7 +18,6 @@ server.use('/patchTask', patchTask)
 server.use('/deleteTask', deleteTask)
 server.use('/deleteTasks', deleteTasks)
 server.use('/checkAll', checkAll)
-// app.listen(process.env.PORT || 5000
 server.listen(process.env.PORT || PORT, () => {
     console.log(`Server start ${new Date} on port ${PORT}`);
 })
