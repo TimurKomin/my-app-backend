@@ -1,37 +1,66 @@
 const express = require('express');
+const Sequelize = require('sequelize');
+const sequelize = require('../models/index').sequelize;
 const fs = require('fs/promises')
 const router = express.Router();
 router.use(express.json());
+const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
+    Sequelize.Model);
 
 router.get('/', async (req, res, next)  => {
     try{
-
         let { allPerPage, filterBy, page, order} = req.query
-        const tasksList = await fs.readFile(`./server/arr.json`);
-        const taskParse = JSON.parse(tasksList) 
-        let arrFilterTasks = taskParse.tasks
-    
-        if(order === "desc") {
-            arrFilterTasks.reverse()
-        }
-        if(order === 'asc') {
-            arrFilterTasks.sort((a,b) => Number(Date(a.date))  - Number(Date(b.date)))
+        let arrFilterTasks = []
+        let counter = {}
+        if(filterBy === ''){
+            arrFilterTasks = await Task.findAll({
+                order: [['createdAt', `${order}`]],
+                offset: (page-1) * 5 , 
+                limit: allPerPage,
+            })
+            counter = await Task.findAndCountAll();
+            console.log(counter.count)
         }
         if(filterBy === 'done'){
-            arrFilterTasks = arrFilterTasks.filter((item) => item.done === true)
+            arrFilterTasks = await Task.findAll({
+                where:{
+                    done:true
+                },
+                order: [['createdAt', `${order}`]],
+                offset: (page-1) * 5 , 
+                limit: allPerPage,
+            })
 
+            counter = await Task.findAndCountAll({
+                where: {
+                    done:true
+                }
+            });
         }
         if(filterBy === 'undone'){
-            arrFilterTasks = arrFilterTasks.filter((item) => item.done === false)
+            arrFilterTasks = await Task.findAll({
+                where:{
+                    done:false
+                },
+                order: [['createdAt', `${order}`]],
+                 offset: (page-1) * 5 , 
+                limit: allPerPage,
+                
+            })
+            counter = await Task.findAndCountAll({
+                where: {
+                    done:false
+                }
+            });
         }
-
-        const count = arrFilterTasks.length
-        const tasksCurrentPage = arrFilterTasks.slice((page-1)*allPerPage, page*allPerPage)
-        await res.status(200).json({tasksCurrentPage, count})
+        
+        const countTasks = counter.count
+        console.log((await counter).count)
+        await res.status(200).json({arrFilterTasks, countTasks})
     }
-    catch(err){
-        console.log(err)
-        next(err)
+    catch(counter){
+        await res.status(400).json(counter.count)
+        // next(err)
     }
     
 })

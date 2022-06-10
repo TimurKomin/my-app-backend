@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs/promises");
 const router = express.Router();
 const ERROR = require("../helpers/errorHandler")
+const bd = require('../models/index')
 router.patch("/", async (req, res) => {
     try {
         const { uuid } = req.query;
