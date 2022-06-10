@@ -12,12 +12,15 @@ router.get('/', async (req, res, next)  => {
         let { allPerPage, filterBy, page, order} = req.query
         let arrFilterTasks = []
         let counter = {}
-
+        let a 
+        if(filterBy !== '') {
+            filterBy === 'done'? a = true : a = false
+        }
         const FilterTasks = await Task.findAndCountAll({
             
-            // where:{
-            //     done:true
-            // },
+            where:{
+                done:a
+            },
             order: [['createdAt', `${order}`]],
             offset: (page) * 5 , 
             limit: allPerPage,
