@@ -1,7 +1,6 @@
 const express = require('express');
 const Sequelize = require('sequelize');
 const sequelize = require('../models/index').sequelize;
-const fs = require('fs/promises')
 const router = express.Router();
 router.use(express.json());
 const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
