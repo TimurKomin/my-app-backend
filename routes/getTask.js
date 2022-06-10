@@ -1,6 +1,7 @@
 const express = require('express');
 const Sequelize = require('sequelize');
 const sequelize = require('../models/index').sequelize;
+const fs = require('fs/promises')
 const router = express.Router();
 router.use(express.json());
 const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
@@ -14,7 +15,7 @@ router.get('/', async (req, res, next)  => {
         if(filterBy === ''){
             arrFilterTasks = await Task.findAll({
                 order: [['createdAt', `${order}`]],
-                offset: (page-1) * 5 , 
+                offset: (page) * 5 , 
                 limit: allPerPage,
             })
             counter = await Task.findAndCountAll();
@@ -26,7 +27,7 @@ router.get('/', async (req, res, next)  => {
                     done:true
                 },
                 order: [['createdAt', `${order}`]],
-                offset: (page-1) * 5 , 
+                offset: (page) * 5 , 
                 limit: allPerPage,
             })
 
@@ -42,7 +43,7 @@ router.get('/', async (req, res, next)  => {
                     done:false
                 },
                 order: [['createdAt', `${order}`]],
-                 offset: (page-1) * 5 , 
+                 offset: (page) * 5 , 
                 limit: allPerPage,
                 
             })

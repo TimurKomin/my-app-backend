@@ -7,13 +7,17 @@ const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
     Sequelize.Model);
 router.use(express.json());
 router.post("/", async (req, res, next) => {
-    
+    // const Tasks = await Task.findAll()
+    // console.log('23423423', Tasks)
     try {
+        // if(Tasks.some((item) => )) {
+
+        // }
         const {name} = req.body;
         const newTask = await Task.create({
             name: name 
         })
-        res.status(200).json(newTask);
+        res.status(200).json(Tasks);
     } catch(newTask) {
         res.status(400).json(`${newTask}`);
     }
