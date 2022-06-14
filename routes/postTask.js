@@ -17,9 +17,9 @@ router.post("/", async (req, res, next) => {
         const newTask = await Task.create({
             name: name 
         })
-        res.status(200).json(Tasks);
+        res.status(200).json('Task add');
     } catch(newTask) {
-        res.status(400).json(`${newTask}`);
+        res.status(400).json(`Task alrady exist`);
     }
 });
 

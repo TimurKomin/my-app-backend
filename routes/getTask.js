@@ -16,7 +16,6 @@ router.get('/', async (req, res, next)  => {
         if(filterBy !== '') {
             filterBy === 'done'? a = true : a = false
         }
-        console.log(filterBy.length, a);
         const FilterTasks = await Task.findAndCountAll({
             
             where: filterBy.length ? { done: a } : {},
