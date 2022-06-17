@@ -20,7 +20,7 @@ router.get('/', async (req, res, next)  => {
             
             where: filterBy.length ? { done: a } : {},
             order: [['createdAt', `${order}`]],
-            offset: (page) * 5 , 
+            offset: (page) * allPerPage , 
             limit: allPerPage,
 
         })

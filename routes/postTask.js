@@ -13,9 +13,11 @@ router.post("/", async (req, res, next) => {
         // if(Tasks.some((item) => )) {
 
         // }
-        const {name} = req.body;
+        console.log(req.body)
+        const {title} = req.body;
         const newTask = await Task.create({
-            name: name 
+            title:title
+
         })
         res.status(200).json('Task add');
     } catch(newTask) {

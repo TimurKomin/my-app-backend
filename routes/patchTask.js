@@ -9,11 +9,11 @@ const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
 
 router.patch("/", async (req, res, next) => {
     try {
-        const {done , name} = req.body 
+        const {done , title} = req.body 
         console.log(req.body)
         await Task.upsert({
             uuid:req.query.uuid,
-            name,
+            title,
             done
         })
 
