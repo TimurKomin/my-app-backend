@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('tasks', {
@@ -6,7 +7,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4
+        defaultValue: Sequelize.literal('gen_random_uuid()')
       },
       title: {
         unique:true,
@@ -17,12 +18,14 @@ module.exports = {
         defaultValue: false
       },
       createdAt: {
+        defaultValue: Sequelize.literal('now()'),
         allowNull: false,
         type: Sequelize.DATE,
         field: 'created_at'
 
       },
       updatedAt: {
+        defaultValue: Sequelize.literal('now()'),
         allowNull: false,
         type: Sequelize.DATE,
         field: 'updated_at'

@@ -2,12 +2,12 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models/index").sequelize;
 const { ApolloError } = require("apollo-server-express");
 const Task = require("../models/task")(
-    sequelize,
-    Sequelize.DataTypes,
-    Sequelize.Model
-    );
+  sequelize,
+  Sequelize.DataTypes,
+  Sequelize.Model
+);
 
-    const getTask = async (req, err) => {
+const getTask = async (req, err) => {
     try {
         let { allPerPage, filterBy, page, order } = req;
 
@@ -19,14 +19,17 @@ const Task = require("../models/task")(
         filterBy === "done" ? (filter = true) : (filter = false);
         }
 
-        const FilterTasks = await Task.findAndCountAll({
-        where: filterBy.length ? { done: filter } : {},
-        order: [["createdAt", `${order}`]],
-        offset: page * allPerPage,
-        limit: allPerPage,
-        });
+        const filtertodo = filterBy.length ? `where done = ${filter}` : "";
+        FilterTasks = await Task.sequelize.query(
+        `SELECT * from tasks ${filtertodo} order by created_at ${order} offset $2  limit $1 `,
+        {
+            bind: [allPerPage, page * allPerPage],
+            raw: true,
+            type: Sequelize.QueryTypes.SELECT,
+        }
+        );
 
-        return FilterTasks.rows;
+        return FilterTasks;
     } catch (err) {
         return new ApolloError(err.message);
     }

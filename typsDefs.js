@@ -9,7 +9,7 @@ const typsDefs = gql`
         uuid: ID
     }
     type Query {
-        tasks: [Task!]!
+        tasks(allPerPage:Int, filterBy:String, page:Int, order:String): [Task!]!
     }
 
     type Mutation {
