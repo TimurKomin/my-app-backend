@@ -1,11 +1,9 @@
 const { ApolloError } = require('apollo-server-express')
 const task = require('./models/task')
-// const tasks = require("./arr")
 const getTask = require('./routes/getTask')
 const postTask = require('./routes/postTask')
 const patchTask = require('./routes/patchTask')
 const deleteTask = require('./routes/deleteTask')
-// let tasks=[{}]
 const resolvers = {
 
     Query: {
