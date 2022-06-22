@@ -1,9 +1,6 @@
-const express = require("express");
-const fs = require("fs/promises");
-const router = express.Router();
-router.use(express.json());
 const Sequelize = require('sequelize');
 const sequelize = require('../models/index').sequelize;
+const { ApolloError } = require('apollo-server-express')
 const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
     Sequelize.Model);
 
@@ -17,7 +14,7 @@ const patchTask = async (req, err) => {
         })
         return changing[0]
     } catch (err) {
-        return err
+        return new ApolloError(err.message)
     }
 };
 

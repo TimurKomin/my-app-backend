@@ -1,22 +1,19 @@
-const express = require("express");
+const { ApolloError } = require("apollo-server-express");
 const Sequelize = require('sequelize');
 const sequelize = require('../models/index').sequelize;
-const router = express.Router();
-const ERROR = require("../helpers/errorHandler");
 const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
     Sequelize.Model);
+    
     const postTask = async (req, err) => {
         const {title} = req
-        let newTask = {
+    try {
+        const newTask = await Task.create({
             title
-        }
-        try {
-            newTask = await Task.create({
-                title:title
-            })
-        } catch(err) {
-        }
-        return err
+        }) 
+        return newTask
+    } catch(err) {
+        return new ApolloError(err.message)   
+    }
 };
 
 module.exports = postTask;
