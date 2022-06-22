@@ -7,20 +7,18 @@ const sequelize = require('../models/index').sequelize;
 const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
     Sequelize.Model);
 
-router.patch("/", async (req, res, next) => {
+const patchTask = async (req, err) => {
     try {
-        const {done , title} = req.body 
-        console.log(req.body)
-        await Task.upsert({
-            uuid:req.query.uuid,
+        const {done , title, uuid} = req
+        const changing = await Task.upsert({
+            uuid,
             title,
             done
         })
-
-        res.status(200).json(`ok`);
+        return changing[0]
     } catch (err) {
-        next(err);
+        return err
     }
-});
+};
 
-module.exports = router;
+module.exports = patchTask;

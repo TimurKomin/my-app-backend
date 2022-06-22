@@ -6,16 +6,16 @@ const sequelize = require('../models/index').sequelize;
 const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
     Sequelize.Model);
 
-router.delete(`/`, async (req, res, next) => {
+const deleteTask = async (req, err) => {
     try{
         
-        console.log(req.query.uuid)
+        console.log(req.uuid)
         const delTask = await Task.destroy({
-            where:{ uuid : req.query.uuid}
+            where:{ uuid : req.uuid}
         })
-        res.status(200).json(delTask);
+        return(req)
     }catch(err){
-        next(err)
+        return err
     }
-});
-module.exports = router;
+};
+module.exports = deleteTask;
