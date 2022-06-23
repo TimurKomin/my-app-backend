@@ -5,7 +5,7 @@ const deleteTask = require('./resolvers/deleteTask')
 const resolvers = {
 
     Query: {
-      tasks: async () => await getTask({allPerPage: 100, filterBy: "", order: "desc", page: 0})
+      tasks: async (_, input, context) => await getTask(input)
     },
     Mutation: {
           addTask: async (_, input, context) => await postTask(input),
