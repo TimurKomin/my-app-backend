@@ -2,9 +2,9 @@ const Sequelize = require("sequelize");
 const sequelize = require("../models/index").sequelize;
 const { ApolloError } = require("apollo-server-express");
 const Task = require("../models/task")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
+    sequelize,
+    Sequelize.DataTypes,
+    Sequelize.Model
 );
 
 const getTask = async (req, err) => {
@@ -29,7 +29,8 @@ const getTask = async (req, err) => {
         }
         );
 
-        return FilterTasks;
+        const count = await Task.sequelize.query(`SELECT COUNT(*) FROM tasks ${filtertodo}`)
+        return { task: FilterTasks, count: +count[0][0].count} ;
     } catch (err) {
         return new ApolloError(err.message);
     }
