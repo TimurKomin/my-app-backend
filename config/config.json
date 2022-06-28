@@ -11,10 +11,10 @@
 
   },
   "test": {
-    "username": "eeexdigdlolwxs",
-    "password": "775f361050ee0db4d14e90fc183739233091f42bee11906a4b897ad88d2f5c85",
-    "database": "dcece3psdi7kln",
-    "host": "ec2-54-227-248-71.compute-1.amazonaws.com",
+    "username": "local",
+    "password": "root",
+    "database": "test_todo",
+    "host": "localhost",
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": { "rejectUnauthorized": false }

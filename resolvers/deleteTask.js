@@ -5,6 +5,7 @@ const { QueryTypes } = require('sequelize');
 const Task = require('../models/task')(sequelize, Sequelize.DataTypes,
     Sequelize.Model);
 const deleteTask = async (req, err) => {
+    console.log(req)
     const {uuid} = req
     
     try{
