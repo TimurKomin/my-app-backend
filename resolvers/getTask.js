@@ -6,7 +6,6 @@ const Task = require("../models/task")(
     Sequelize.DataTypes,
     Sequelize.Model
 );
-const cleanerFunction = require('../jobs/cleaner.jobs')
 
 const getTask = async (req, err) => {
     try {
@@ -29,7 +28,6 @@ const getTask = async (req, err) => {
             type: Sequelize.QueryTypes.SELECT,
         }
         );
-        cleanerFunction()
         const count = await Task.sequelize.query(`SELECT COUNT(*) FROM tasks ${filtertodo}`)
         return { task: FilterTasks, count: +count[0][0].count} ;
     } catch (err) {
